@@ -10,7 +10,9 @@
 #include "base58.h"
 #include "coincontrol.h"
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/multiprecision/cpp_int.hpp>
 
+using namespace boost::multiprecision;
 using namespace std;
 
 
