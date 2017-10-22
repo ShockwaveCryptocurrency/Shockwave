@@ -4,6 +4,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #ifndef BITCOIN_MAIN_H
 #define BITCOIN_MAIN_H
+#include <boost/multiprecision/cpp_int.hpp>
 
 #include "bignum.h"
 #include "sync.h"
@@ -12,6 +13,7 @@
 #include "scrypt.h"
 
 #include <list>
+using namespace boost::multiprecision;
 
 class CWallet;
 class CBlock;
@@ -52,7 +54,7 @@ static const int64 DUST_SOFT_LIMIT = 100000; // 0.001 SWAVE
 /** Dust Hard Limit, ignored as wallet inputs (mininput default) */
 static const int64 DUST_HARD_LIMIT = 1000;   // 0.00001 SWAVE mininput
 /** No amount larger than this (in satoshi) is valid */
-static const uint256 MAX_MONEY = 1000000000000 * COIN;
+static const uint128_t MAX_MONEY = 1000000000000 * COIN;
 inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
 static const int COINBASE_MATURITY = 100;
