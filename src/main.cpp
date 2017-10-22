@@ -604,7 +604,7 @@ bool CTransaction::CheckTransaction(CValidationState &state) const
     return true;
 }
 
-int_1024_t CTransaction::GetMinFee(unsigned int nBlockSize, bool fAllowFree,
+int1024_t CTransaction::GetMinFee(unsigned int nBlockSize, bool fAllowFree,
                               enum GetMinFee_mode mode) const
 {
     // Base fee is either nMinTxFee or nMinRelayTxFee
@@ -612,7 +612,7 @@ int_1024_t CTransaction::GetMinFee(unsigned int nBlockSize, bool fAllowFree,
 
     unsigned int nBytes = ::GetSerializeSize(*this, SER_NETWORK, PROTOCOL_VERSION);
     unsigned int nNewBlockSize = nBlockSize + nBytes;
-    int_1024_t nMinFee = (1 + (int64)nBytes / 1000) * nBaseFee;
+    int1024_t nMinFee = (1 + (int64)nBytes / 1000) * nBaseFee;
 
     if (fAllowFree)
     {
