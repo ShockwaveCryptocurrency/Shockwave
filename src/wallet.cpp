@@ -1326,6 +1326,17 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
                 }
                 dPriority /= nBytes;
 
+				int1024_t max(int1024_t a, int1024_t b)
+				{
+					if (a > b)
+					{
+						return a;
+					}
+					else
+					{
+						return b
+					}
+				}
                 // Check that enough fee is included
                 int1024_t nPayFee = nTransactionFee * (1 + (int64)nBytes / 1000);
                 bool fAllowFree = CTransaction::AllowFree(dPriority);
