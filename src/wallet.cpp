@@ -1344,9 +1344,20 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
                 int128_t nPayFee = nTransactionFee * (1 + (int64)nBytes / 1000);
                 bool fAllowFree = CTransaction::AllowFree(dPriority);
                 int128_t nMinFee = wtxNew.GetMinFee(1, fAllowFree, GMF_SEND);
-                if (nFeeRet < max(nPayFee, nMinFee))
+
+				int128_t PayMin_compare = NULL;
+				if (nPayFee > nMinFee)
+				{
+					int128_t PayMin_compare = nPayFee;
+				}
+				else
+				{
+					int128_t PayMin_compare = nMinFee;
+				}
+
+                if (nFeeRet < PayMin_compare)
                 {
-                    nFeeRet = max(nPayFee, nMinFee);
+                    nFeeRet = PayMin_compare;
                     continue;
                 }
 
