@@ -16,7 +16,7 @@ using namespace boost::multiprecision;
 using namespace std;
 
 
-int1024_t max1024(int1024_t a, int1024_t b)
+int128_t max128(int128_t a, int128_t b)
 {
 	if (a > b)
 	{
@@ -1341,12 +1341,12 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
 
 
                 // Check that enough fee is included
-                int1024_t nPayFee = nTransactionFee * (1 + (int64)nBytes / 1000);
+                int128_t nPayFee = nTransactionFee * (1 + (int64)nBytes / 1000);
                 bool fAllowFree = CTransaction::AllowFree(dPriority);
-                int1024_t nMinFee = wtxNew.GetMinFee(1, fAllowFree, GMF_SEND);
-                if (nFeeRet < max1024(nPayFee, nMinFee))
+                int128_t nMinFee = wtxNew.GetMinFee(1, fAllowFree, GMF_SEND);
+                if (nFeeRet < max(nPayFee, nMinFee))
                 {
-                    nFeeRet = max1024(nPayFee, nMinFee);
+                    nFeeRet = max(nPayFee, nMinFee);
                     continue;
                 }
 

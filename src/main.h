@@ -54,8 +54,9 @@ static const int64 DUST_SOFT_LIMIT = 100000; // 0.001 SWAVE
 /** Dust Hard Limit, ignored as wallet inputs (mininput default) */
 static const int64 DUST_HARD_LIMIT = 1000;   // 0.00001 SWAVE mininput
 /** No amount larger than this (in satoshi) is valid */
-static const int1024_t MAX_MONEY = 100000000000000000000;
-inline bool MoneyRange(int1024_t nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
+static const int128_t MAX_COINS = 1000000000000;
+static const int128_t MAX_MONEY = 100000000*MAX_COINS;
+inline bool MoneyRange(int128_t nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
 static const int COINBASE_MATURITY = 100;
 /** Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp. */
@@ -632,7 +633,7 @@ public:
 // Apply the effects of this transaction on the UTXO set represented by view
 void UpdateCoins(const CTransaction& tx, CValidationState &state, CCoinsViewCache &inputs, CTxUndo &txundo, int nHeight, const uint256 &txhash);
 
-    int1024_t GetMinFee(unsigned int nBlockSize=1, bool fAllowFree=true, enum GetMinFee_mode mode=GMF_BLOCK) const;
+    int128_t GetMinFee(unsigned int nBlockSize=1, bool fAllowFree=true, enum GetMinFee_mode mode=GMF_BLOCK) const;
 
     friend bool operator==(const CTransaction& a, const CTransaction& b)
     {
