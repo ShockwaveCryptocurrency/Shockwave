@@ -1198,7 +1198,7 @@ bool CWallet::SelectCoins(int64 nTargetValue, set<pair<const CWalletTx*,unsigned
 
 
 bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
-                                CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, const CCoinControl* coinControl)
+                                CWalletTx& wtxNew, CReserveKey& reservekey, int128_t& nFeeRet, std::string& strFailReason, const CCoinControl* coinControl)
 {
     int64 nValue = 0;
     BOOST_FOREACH (const PAIRTYPE(CScript, int64)& s, vecSend)
@@ -1341,18 +1341,20 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
 
 
                 // Check that enough fee is included
-                int128_t nPayFee = nTransactionFee * (1 + (int64)nBytes / 1000);
+                long long int nPayFee = nTransactionFee * (1 + (int64)nBytes / 1000);
+				int128_t nPayFee128(nPayFee);
                 bool fAllowFree = CTransaction::AllowFree(dPriority);
-                int128_t nMinFee = wtxNew.GetMinFee(1, fAllowFree, GMF_SEND);
+				nMinFee = wtxNew.GetMinFee(1, fAllowFree, GMF_SEND);
+				int128_t nMinFee128(nMinFee);
 
 				int128_t PayMin_compare = NULL;
-				if (nPayFee > nMinFee)
+				if (nPayFee128 > nMinFee128)
 				{
-					int128_t PayMin_compare = nPayFee;
+					int128_t PayMin_compare = nPayFee128;
 				}
 				else
 				{
-					int128_t PayMin_compare = nMinFee;
+					int128_t PayMin_compare = nMinFee128;
 				}
 
                 if (nFeeRet < PayMin_compare)
@@ -1373,7 +1375,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
 }
 
 bool CWallet::CreateTransaction(CScript scriptPubKey, int64 nValue,
-                                CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, const CCoinControl* coinControl)
+                                CWalletTx& wtxNew, CReserveKey& reservekey, int128_t& nFeeRet, std::string& strFailReason, const CCoinControl* coinControl)
 {
     vector< pair<CScript, int64> > vecSend;
     vecSend.push_back(make_pair(scriptPubKey, nValue));
